@@ -17,6 +17,11 @@ scoop_the_survey<-function(){
   dfs<-data.frame(usrnames_survey,agreeable,conscientious,extraversion,neuroticism,openness)
   names(dfs)<-c("usernames", "avgAgreeableness", "avgConscientiousness", "avgExtraversion", "avgNeuroticism", 
                 "avgOpennessIntellect")
+  rownames(dfs)<-make.names(usrnames_survey, unique=TRUE)
+  
+  print(head(dfs))
+  
+  
   
   
   dfs

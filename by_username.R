@@ -22,7 +22,7 @@ by_username<-function(df1,ob,mdfcolnames){
     df1[uniqnames[i],"words"]<-user_tweets[uniqnames[i]]     # and variables on columns
     df1[uniqnames[i],"klouts"]<-user_avg_klout[uniqnames[i]]
     df1[uniqnames[i],"sentiments"]<-user_avg_sentiment[uniqnames[i]]
-    df1[uniqnames[i],"#tweets.by"]<-idoccurs[uniqnames[i],"number.tweets"]
+    df1[uniqnames[i],"tweets.by"]<-idoccurs[uniqnames[i],"number.tweets"]
     df1[uniqnames[i],"usernames"]<-uniqnames[i]
         
   }
@@ -32,9 +32,9 @@ num_links<-tapply(df1[,"words"],df1[,"usernames"], function(x) str_count(x,"http
 num_mentions<-tapply(df1[,"words"],df1[,"usernames"], function(x) (str_count(x,"@")/length(strsplit(x, " ")) ) )
 
 for(i in seq_along(uniqnames)){
-  df1[uniqnames[i],"#hashtags"]<-num_hashtags[uniqnames[i]]
-  df1[uniqnames[i],"#links"]<-num_links[uniqnames[i]]
-  df1[uniqnames[i],"@mentions"]<-num_mentions[uniqnames[i]]
+  df1[uniqnames[i],"hashtags"]<-num_hashtags[uniqnames[i]]
+  df1[uniqnames[i],"links"]<-num_links[uniqnames[i]]
+  df1[uniqnames[i],"mentions"]<-num_mentions[uniqnames[i]]
   
 }
 

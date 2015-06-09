@@ -8,4 +8,5 @@ gmodel<-function(Y,X){
   
   a<-list(agree, conscient, extraverse, neurotic, open)
   
+  
 }

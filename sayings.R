@@ -3,7 +3,8 @@ sayings<-function(tdata){
   corpus<-Corpus(VectorSource(tdata))
   corpus<-tm_map(corpus,stripWhitespace)
   corpus<-tm_map(corpus,content_transformer(tolower))
-  corpus<-tm_map(corpus,tokenize)
+  corpus<-tm_map(corpus,PlainTextDocument)
+  #corpus<-tm_map(corpus,tokenize)
   corpus<-tm_map(corpus,removeWords,stopwords("english"))
   
   corpus<-tm_map(corpus,stemDocument)
@@ -11,6 +12,6 @@ sayings<-function(tdata){
   
   #inspect(tdm)
   #print(dimnames(tdm)$Terms[1:5])
-  return(tdm)
+  return(corpus)
     
 }

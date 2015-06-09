@@ -45,7 +45,7 @@ makefeatures<-function(freqz){
   money<-countfeature(money_words,freqz)
   
   wordvars<-c(cuss,excited,eros,money)
-  names(wordvars)<-row.names(freqz)
+
   
   
   return(wordvars)
