@@ -3,14 +3,15 @@ by_username<-function(df1,ob,mdfcolnames){
   # user_tweets is a vector collecting all the words/text per username  
   user_tweets<-tapply(df1[,"words"],df1[,"usernames"], function(x) paste(x,collapse=" "))
   uniqnames<-names(user_tweets)       # gives the unique usernames
-  idoccurs<-aggregate(df1[,"ids"],by=list(df1[,"ids"]), FUN=length)
-  names(idoccurs)<-c("ids","number.tweets")
+  nameoccurs<-aggregate(df1[,"usernames"],by=list(df1[,"usernames"]), FUN=length)
+  names(nameoccurs)<-c("usernames","number.tweets")
+  rownames(nameoccurs)<-uniqnames
   
   user_avg_sentiment<-tapply(df1[,"sentiments"],df1[,"usernames"], function(x) mean(x,na.rm=TRUE))
   user_avg_klout<-tapply(df1[,"klouts"],df1[,"usernames"], function(x) mean(x,na.rm=TRUE))
   user_ids<-tapply(df1[,"ids"],df1[,"usernames"], function(x) x )
-  
-  rm(list=c("df1","ob"))
+    
+  rm(list=c("df1","ob"))               # free memory by removing large objects no longer needed
   rowlength=length(uniqnames)
   collength=9
     
@@ -22,7 +23,7 @@ by_username<-function(df1,ob,mdfcolnames){
     df1[uniqnames[i],"words"]<-user_tweets[uniqnames[i]]     # and variables on columns
     df1[uniqnames[i],"klouts"]<-user_avg_klout[uniqnames[i]]
     df1[uniqnames[i],"sentiments"]<-user_avg_sentiment[uniqnames[i]]
-    df1[uniqnames[i],"tweets.by"]<-idoccurs[uniqnames[i],"number.tweets"]
+    df1[uniqnames[i],"tweets.by"]<-nameoccurs[uniqnames[i],"number.tweets"]
     df1[uniqnames[i],"usernames"]<-uniqnames[i]
         
   }

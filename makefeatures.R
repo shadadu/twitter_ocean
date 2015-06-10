@@ -24,16 +24,14 @@ makefeatures<-function(freqz){
   quantifier_words<-c("few","many","much","plenty")
   family_words<-c("child","father","mother","son","daughter","grandma","grandpa")
   
-    
+  nobs<-function(x,freqz){
+    if(x %in% names(freqz)){
+      return(freqz[x])
+    }else{return(0)} 
+  } 
+  
   countfeature<-function(wordsfeature,freqz){
     
-      nobs<-function(x,freqz){
-     if(x %in% row.names(freqz)){
-     return(freqz(x))
-     }else{return(0)} 
-   } 
-   
-   
    s<-sapply(wordsfeature,nobs,freqz)
    return(sum(s,na.rm=TRUE))
       

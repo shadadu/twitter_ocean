@@ -19,8 +19,6 @@ scoop_the_survey<-function(){
                 "avgOpennessIntellect")
   rownames(dfs)<-make.names(usrnames_survey, unique=TRUE)
   
-  print(head(dfs))
-  
   
   
   
