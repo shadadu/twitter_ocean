@@ -10,8 +10,6 @@ ocean<-function(){
   source("scoop_the_survey.R")
   source("sayings.R")
   source("makefeatures.R")
-  source("gpmodel.R")
-  source("predictmodel.R")
   source("lm_model.R")
   
   file_names <-list.files("Ocean Social Data")  # collect the names of the 3211 files in this folder
@@ -26,12 +24,10 @@ ocean<-function(){
   names(mdf)<-mdfcolnames  
   
   
-  for(k in 2600:3000){
+  for(k in seq_along(file_names)){
     print(k)
-    print(file_names[k])
     adf<-scoop_the_tweets(k,file_names,mdfcolnames)
-    
-    
+        
     mdf<-rbind(mdf,adf)
    
   }
@@ -43,7 +39,10 @@ ocean<-function(){
     
   mergedata<-merge(mdf,dfs)
   
+  mergedata<-mergedata[complete.cases(mergedata),]
+  
   rownames(mergedata)<-make.names(mergedata[,"usernames"], unique=TRUE)
+  
   
   
   L<-length(rownames(mergedata))
@@ -73,14 +72,16 @@ ocean<-function(){
   
   #remove NAs from mergedata
   
-  Y<-data.frame(mergedata$avgAgreeableness, mergedata$avgConscientiousness, mergedata$avgExtraversion,
-             mergedata$avgNeuroticism, mergedata$avgOpennessIntellect)
+  Y<-data.frame(mergedata$ids, mergedata$usernames, mergedata$avgAgreeableness, mergedata$avgConscientiousness,
+                mergedata$avgExtraversion, mergedata$avgNeuroticism, mergedata$avgOpennessIntellect)
   
   
 
   Y<-as.matrix(Y)
   
-  colnames(Y)<-c("avgAgreeableness", "avgConscientiousness", "avgExtraversion",
+  
+  
+  colnames(Y)<-c("ids","usernames","avgAgreeableness", "avgConscientiousness", "avgExtraversion",
                 "avgNeuroticism", "avgOpennessIntellect")
 rownames(Y)<-rownames(mergedata)
    
@@ -93,16 +94,19 @@ head(X)
 
   #rownames(X)<-row.names(mergedata)
   
-  outY<- lm_model(Y,X)
+  ans<- lm_model(Y,X)
    print(length(rownames(mdf)))
-  length(rownames(mergedata))
+  print(length(rownames(mergedata)))
   #pY<-predictmodel(outY,X)   # use the learned model to predict the ocean values 
                               # for the users in the supplied (training) data
   
+  print(summary(ans[[1]]))
+  print(summary(ans[[2]]))
+  print(summary(ans[[3]]))
+  print(summary(ans[[4]]))
+  print(summary(ans[[5]]))
   
-  
-  
-  #return(length((bigdf[,"user_names"] %in% dfs[,"usrnames_survey"])))
+  return(length((mdf[,"usernames"] %in% dfs[,"usernames"])))
   
   
   

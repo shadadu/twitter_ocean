@@ -4,7 +4,7 @@ sayings<-function(tdata){
   corpus<-tm_map(corpus,stripWhitespace)
   corpus<-tm_map(corpus,content_transformer(tolower))
   corpus<-tm_map(corpus,PlainTextDocument)
-  #corpus<-tm_map(corpus,tokenize)
+  
   corpus<-tm_map(corpus,removeWords,stopwords("english"))
   
   corpus<-tm_map(corpus,stemDocument)
